@@ -1,22 +1,17 @@
 require('./config/config')
 const express = require('express')
-const mongoose = require('mongoose')
 
-const bodyParser = require('body-parser')
 const app = express()
 
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+//configuracion del body-parser
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
 
-app.use(require('./routes/usuario'))
+//Configuracion global de rutas
+app.use(require('./routes/index'))
 
-mongoose.connect('mongodb://localhost:27017/cafe',
-    {
-        useNewUrlParser: true,
-        useCreateIndex: true
-    }
-).then(db=>console.log('DB connected'))
-.catch(e=>console.log(e))
+//conexión a la base de datos
+require('./database')
 
 
 app.listen(process.env.PORT, ()=>{
